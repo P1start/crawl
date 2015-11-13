@@ -287,6 +287,16 @@ void MiscastEffect::do_miscast()
         else if (severity < 0)
             severity = 0;
     }
+    if (target->is_player() && you.species == SP_IRON_DWARF)
+    {
+        for (int i = severity; i >= 0; i--)
+        {
+            if (random2(2))
+                break;
+            severity--;
+        }
+    }
+
 
 #if defined(DEBUG_DIAGNOSTICS) || defined(DEBUG_MISCAST)
     mprf(MSGCH_DIAGNOSTICS, "Sptype: %s, severity: %d",

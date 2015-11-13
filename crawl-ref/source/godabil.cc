@@ -5236,6 +5236,12 @@ static bool _sacrifice_is_possible(sacrifice_def &sacrifice)
         return false;
     }
 
+    if (you.species == SP_IRON_DWARF
+        && sacrifice.sacrifice == ABIL_RU_SACRIFICE_WORDS)
+    {
+        return false;
+    }
+
     if (sacrifice.sacrifice_vector)
     {
         const char* key = sacrifice.sacrifice_vector;

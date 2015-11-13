@@ -5997,6 +5997,10 @@ int player::racial_ac(bool temp) const
             return 200 + 100 * experience_level * 2 / 5     // max 20
                        + 100 * (max(0, experience_level - 7) * 2 / 5);
         }
+        else if (species == SP_IRON_DWARF)
+        {
+            return 100 * (experience_level / 4);
+        }
     }
 
     return 0;
@@ -6134,7 +6138,9 @@ int player::gdr_perc() const
 
     const item_def *body_armour = slot_item(EQ_BODY_ARMOUR, false);
 
-    int body_base_AC = (species == SP_GARGOYLE ? 5 : 0);
+    int body_base_AC = species == SP_GARGOYLE ? 5
+                     : species == SP_IRON_DWARF ? 2
+                     : 0;
     if (body_armour)
         body_base_AC += property(*body_armour, PARM_AC);
 

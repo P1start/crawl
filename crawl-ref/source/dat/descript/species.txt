@@ -126,3 +126,10 @@ Vine Stalker
 Frail symbionts, Vine Stalkers cannot regain health from devices or potions.
 Their magical reserves absorb damage, and they pack a magic-restoring bite.
 %%%%
+Iron Dwarf
+
+Tainted with demonic magic, the thick, iron protrusions covering these dwarfs'
+bodies interferes with magic, causing them to be less effective as spellcasters
+and unable to use scrolls. However, they also gain a multitude of defences,
+including a high resistance to magic.
+%%%%

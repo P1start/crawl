@@ -456,6 +456,27 @@ static const map<species_type, species_def> species_data =
       SK_BOWS, SK_CROSSBOWS, SK_SLINGS },
 } },
 
+{ SP_IRON_DWARF, {
+    "ID",
+    "Iron Dwarf", "Dwarven", "Dwarf",
+    SPF_NONE,
+    -1, 1, -1, 6,
+    MONS_DEEP_DWARF, // TODO add Iron Dwarf monster
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    12, 6, 6, // 24
+    { STAT_STR }, 5,
+    { { MUT_ROT_IMMUNITY, 1, 1 }, { MUT_NEGATIVE_ENERGY_RESISTANCE, 1, 1 },
+      { MUT_ANTI_WIZARDRY, 2, 1 } },
+    { "You are unable to use scrolls.", "You do not waste unidentified wand charges.",
+      "Cursed equipment loses its curse upon contact with your antimagical body.",
+      "You have a resilience to miscast effects." },
+    { "unscrolled", "wand affinity", "cursebane", "miscast resistance" },
+    { JOB_FIGHTER, JOB_HUNTER, JOB_BERSERKER, JOB_NECROMANCER, // TODO just DD atm
+      JOB_EARTH_ELEMENTALIST },
+    { SK_MACES_FLAILS, SK_AXES, SK_LONG_BLADES, SK_SHORT_BLADES,
+      SK_CROSSBOWS },
+} },
+
 { SP_KOBOLD, {
     "Ko",
     "Kobold", nullptr, nullptr,

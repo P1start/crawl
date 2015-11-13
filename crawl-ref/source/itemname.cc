@@ -3509,6 +3509,8 @@ bool is_useless_item(const item_def &item, bool temp)
         if (you.species == SP_LAVA_ORC && temperature_effect(LORC_NO_SCROLLS))
             return true;
 #endif
+        if (you.species == SP_IRON_DWARF)
+            return true;
 
         if (temp && silenced(you.pos()))
             return true; // can't use scrolls while silenced

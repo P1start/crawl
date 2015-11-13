@@ -2621,6 +2621,12 @@ void read(item_def* scroll)
     }
 
     // need to handle this before we waste time (with e.g. blurryvis)
+    if (you.species == SP_IRON_DWARF)
+    {
+        mpr("Your iron body prevents the use of scrolls.");
+        return;
+    }
+
     if (scroll->sub_type == SCR_BLINKING && item_type_known(*scroll)
         && player_has_orb()
         && !yesno("Your blink will be uncontrolled - continue anyway?",

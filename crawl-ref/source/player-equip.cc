@@ -377,6 +377,13 @@ static void _wield_cursed(item_def& item, bool known_cursed, bool unmeld)
 {
     if (!item.cursed() || unmeld)
         return;
+    if (you.species == SP_IRON_DWARF)
+    {
+        mprf("It briefly sticks to your %s, but your iron exterior dispels its curse.",
+             you.hand_name(false).c_str());
+        do_uncurse_item(item, false);
+        return;
+    }
     mprf("It sticks to your %s!", you.hand_name(false).c_str());
     int amusement = 16;
     if (!known_cursed)
@@ -898,17 +905,25 @@ static void _equip_armour_effect(item_def& arm, bool unmeld,
 
     if (arm.cursed() && !unmeld)
     {
-        mpr("Oops, that feels deathly cold.");
-        learned_something_new(HINT_YOU_CURSED);
-
-        if (!known_cursed)
+        if (you.species == SP_IRON_DWARF)
         {
-            int amusement = 64;
+            mpr("It feels cold for a moment, but your iron exterior dispels its curse.");
+            do_uncurse_item(arm, false);
+        }
+        else
+        {
+            mpr("Oops, that feels deathly cold.");
+            learned_something_new(HINT_YOU_CURSED);
 
-            if (origin_as_god_gift(arm) == GOD_XOM)
-                amusement *= 2;
+            if (!known_cursed)
+            {
+                int amusement = 64;
 
-            xom_is_stimulated(amusement);
+                if (origin_as_god_gift(arm) == GOD_XOM)
+                    amusement *= 2;
+
+                xom_is_stimulated(amusement);
+            }
         }
     }
 
@@ -1263,19 +1278,28 @@ static void _equip_jewellery_effect(item_def &item, bool unmeld,
 
     if (item.cursed() && !unmeld)
     {
-        mprf("Oops, that %s feels deathly cold.",
-             jewellery_is_amulet(item)? "amulet" : "ring");
-        learned_something_new(HINT_YOU_CURSED);
-
-        int amusement = 32;
-        if (!known_cursed && !known_bad)
+        if (you.species == SP_IRON_DWARF)
         {
-            amusement *= 2;
-
-            if (origin_as_god_gift(item) == GOD_XOM)
-                amusement *= 2;
+            mprf("The %s feels cold for a moment, but your iron exterior dispels its curse.",
+                 jewellery_is_amulet(item)? "amulet" : "ring");
+            do_uncurse_item(item, false);
         }
-        xom_is_stimulated(amusement);
+        else
+        {
+            mprf("Oops, that %s feels deathly cold.",
+                 jewellery_is_amulet(item)? "amulet" : "ring");
+            learned_something_new(HINT_YOU_CURSED);
+
+            int amusement = 32;
+            if (!known_cursed && !known_bad)
+            {
+                amusement *= 2;
+
+                if (origin_as_god_gift(item) == GOD_XOM)
+                    amusement *= 2;
+            }
+            xom_is_stimulated(amusement);
+        }
     }
 
     // Cursed or not, we know that since we've put the ring on.

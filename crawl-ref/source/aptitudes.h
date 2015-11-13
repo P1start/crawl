@@ -1484,6 +1484,45 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_VINE_STALKER,    SK_POISON_MAGIC,    0),
     APT(SP_VINE_STALKER,    SK_INVOCATIONS,     0),
     APT(SP_VINE_STALKER,    SK_EVOCATIONS,     -1),
+
+    // SP_IRON_DWARF
+    APT(SP_IRON_DWARF,      SK_FIGHTING,        2),
+    APT(SP_IRON_DWARF,      SK_SHORT_BLADES,    0),
+    APT(SP_IRON_DWARF,      SK_LONG_BLADES,     0),
+    APT(SP_IRON_DWARF,      SK_AXES,            2),
+    APT(SP_IRON_DWARF,      SK_MACES_FLAILS,    2),
+    APT(SP_IRON_DWARF,      SK_POLEARMS,       -2),
+    APT(SP_IRON_DWARF,      SK_STAVES,         -1),
+    APT(SP_IRON_DWARF,      SK_SLINGS,         -1),
+    APT(SP_IRON_DWARF,      SK_BOWS,           -2),
+    APT(SP_IRON_DWARF,      SK_CROSSBOWS,       1),
+    APT(SP_IRON_DWARF,      SK_THROWING,        0),
+    APT(SP_IRON_DWARF,      SK_ARMOUR,          2),
+    APT(SP_IRON_DWARF,      SK_DODGING,         0),
+    APT(SP_IRON_DWARF,      SK_STEALTH,        -2),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_IRON_DWARF,      SK_STABBING,      UNUSABLE_SKILL),
+#endif
+    APT(SP_IRON_DWARF,      SK_SHIELDS,         0),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_IRON_DWARF,      SK_TRAPS,         UNUSABLE_SKILL),
+#endif
+    APT(SP_IRON_DWARF,      SK_UNARMED_COMBAT,  2),
+    APT(SP_IRON_DWARF,      SK_SPELLCASTING,   -1),
+    APT(SP_IRON_DWARF,      SK_CONJURATIONS,    0),
+    APT(SP_IRON_DWARF,      SK_HEXES,          -1),
+    APT(SP_IRON_DWARF,      SK_CHARMS,         -1),
+    APT(SP_IRON_DWARF,      SK_SUMMONINGS,     -3),
+    APT(SP_IRON_DWARF,      SK_NECROMANCY,     -1),
+    APT(SP_IRON_DWARF,      SK_TRANSLOCATIONS, -3),
+    APT(SP_IRON_DWARF,      SK_TRANSMUTATIONS,  1),
+    APT(SP_IRON_DWARF,      SK_FIRE_MAGIC,      0),
+    APT(SP_IRON_DWARF,      SK_ICE_MAGIC,      -2),
+    APT(SP_IRON_DWARF,      SK_AIR_MAGIC,      -2),
+    APT(SP_IRON_DWARF,      SK_EARTH_MAGIC,     1),
+    APT(SP_IRON_DWARF,      SK_POISON_MAGIC,   -1),
+    APT(SP_IRON_DWARF,      SK_INVOCATIONS,     0),
+    APT(SP_IRON_DWARF,      SK_EVOCATIONS,      2),
 };
 
 #endif

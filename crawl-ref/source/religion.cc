@@ -3014,6 +3014,9 @@ bool player_can_join_god(god_type which_god)
     if (which_god == GOD_FEDHAS && you.holiness() & MH_UNDEAD)
         return false;
 
+    if (which_god == GOD_ASHENZARI && you.species == SP_IRON_DWARF)
+        return false;
+
 #if TAG_MAJOR_VERSION == 34
     // Dithmenos hates fiery species.
     if (which_god == GOD_DITHMENOS
