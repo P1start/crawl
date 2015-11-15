@@ -532,6 +532,8 @@ bool silenced(const coord_def& p)
 {
     if (!map_bounds(p))
         return false;
+    if (p == you.pos() && you.species == SP_GROUND_DWARF)
+        return true;
     if (!_agrid_valid)
         _update_agrid();
     return _check_agrid_flag(p, areaprop::SILENCE);

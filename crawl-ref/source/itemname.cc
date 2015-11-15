@@ -3389,9 +3389,8 @@ bool is_dangerous_item(const item_def &item, bool temp)
         {
         case POT_MUTATION:
         case POT_LIGNIFY:
-            return true;
         case POT_AMBROSIA:
-            return you.species != SP_DEEP_DWARF; // VERY good for dd
+            return true;
         default:
             return false;
         }
@@ -3505,7 +3504,7 @@ bool is_useless_item(const item_def &item, bool temp)
             return true;
 #endif
 
-        if (temp && silenced(you.pos()))
+        if (you.species == SP_GROUND_DWARF || temp && silenced(you.pos()))
             return true; // can't use scrolls while silenced
 
         if (!item_type_known(item))

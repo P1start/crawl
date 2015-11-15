@@ -1216,7 +1216,7 @@ static bool _check_ability_possible(const ability_def& abil,
         return false;
     }
 
-    if (silenced(you.pos()))
+    if (silenced(you.pos()) && you.species != SP_GROUND_DWARF)
     {
         talent tal = get_talent(abil.ability, false);
         if (tal.is_invocation)
@@ -3061,9 +3061,6 @@ vector<talent> your_talents(bool check_confused, bool include_unusable)
     if (player_mutation_level(MUT_MUMMY_RESTORATION))
         _add_talent(talents, ABIL_MUMMY_RESTORATION, check_confused);
 
-    if (you.species == SP_DEEP_DWARF)
-        _add_talent(talents, ABIL_RECHARGING, check_confused);
-
     if (you.species == SP_FORMICID
         && (you.form != TRAN_TREE || include_unusable))
     {
@@ -3417,7 +3414,7 @@ vector<ability_type> get_god_abilities(bool ignore_silence, bool ignore_piety,
     }
     if (you.transfer_skill_points > 0)
         abilities.push_back(ABIL_ASHENZARI_END_TRANSFER);
-    if (!ignore_silence && silenced(you.pos()))
+    if (!ignore_silence && you.species != SP_GROUND_DWARF && silenced(you.pos()))
         return abilities;
     // Remaining abilities are unusable if silenced.
 

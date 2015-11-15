@@ -4385,20 +4385,13 @@ bool poison_player(int amount, string source, string source_aux, bool force)
 int get_player_poisoning()
 {
     if (player_res_poison() < 3)
-    {
-        // Approximate the effect of damage shaving by giving the first
-        // 25 points of poison damage for 'free'
-        if (you.species == SP_DEEP_DWARF)
-            return max(0, (you.duration[DUR_POISONING] / 1000) - 25);
-        else
-            return you.duration[DUR_POISONING] / 1000;
-    }
+        return you.duration[DUR_POISONING] / 1000;
     else
         return 0;
 }
 
 // The amount of aut needed for poison to end if
-// you.duration[DUR_POISONING] == dur, assuming no Chei/DD shenanigans.
+// you.duration[DUR_POISONING] == dur, assuming no Chei shenanigans.
 // This function gives the following behavior:
 // * 1/15 of current poison is removed every 10 aut normally
 // * but speed of poison is capped between 0.025 and 1.000 HP/aut
@@ -4458,18 +4451,6 @@ void handle_player_poison(int delay)
 
     int dmg = (you.duration[DUR_POISONING] / 1000)
                - ((you.duration[DUR_POISONING] - decrease) / 1000);
-
-    // Approximate old damage shaving by giving immunity to small amounts
-    // of poison. Stronger poison will do the same damage as for non-DD
-    // until it goes below the threshold, which is a bit weird, but
-    // so is damage shaving.
-    if (you.species == SP_DEEP_DWARF && you.duration[DUR_POISONING] - decrease < 25000)
-    {
-       dmg = (you.duration[DUR_POISONING] / 1000)
-              - (25000 / 1000);
-       if (dmg < 0)
-           dmg = 0;
-    }
 
     msg_channel_type channel = MSGCH_PLAIN;
     const char *adj = "";
@@ -4538,18 +4519,15 @@ int poison_survival()
         return you.hp;
     const int rr = player_regen();
     const bool chei = (you.religion == GOD_CHEIBRIADOS && you.piety >= piety_breakpoint(0));
-    const bool dd = (you.species == SP_DEEP_DWARF);
     const int amount = you.duration[DUR_POISONING];
     const double full_aut = _poison_dur_to_aut(amount);
     // Calculate the poison amount at which regen starts to beat poison.
     double min_poison_rate = 0.25;
-    if (dd)
-        min_poison_rate = 25.0/15.0;
     if (chei)
         min_poison_rate /= 1.5;
     int regen_beats_poison;
     if (rr <= (int) (100.0 * min_poison_rate))
-        regen_beats_poison = dd ? 25000 : 0;
+        regen_beats_poison = 0;
     else
     {
         regen_beats_poison = 150 * rr;
@@ -5464,8 +5442,7 @@ bool player::is_sufficiently_rested() const
     return (hp >= _rest_trigger_level(hp_max)
             || player_mutation_level(MUT_SLOW_REGENERATION) == 3
             || you.species == SP_VAMPIRE && you.hunger_state <= HS_STARVING)
-        && (magic_points >= _rest_trigger_level(max_magic_points)
-            || you.spirit_shield() && you.species == SP_DEEP_DWARF);
+        && magic_points >= _rest_trigger_level(max_magic_points);
 }
 
 bool player::in_water() const
@@ -7818,10 +7795,8 @@ static int _get_device_heal_factor()
     factor -= you.mutation[MUT_NO_DEVICE_HEAL];
 
     // then apply bonuses
-    // Kryia's doubles device healing for non-deep dwarves, because deep dwarves
-    // are abusive bastards.
-    if (you.species != SP_DEEP_DWARF)
-        factor *= player_equip_unrand(UNRAND_KRYIAS) ? 2 : 1;
+    // Kryia's doubles device healing
+    factor *= player_equip_unrand(UNRAND_KRYIAS) ? 2 : 1;
 
     // make sure we don't turn healing negative.
     return max(0, factor);

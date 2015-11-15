@@ -387,7 +387,7 @@ bool fill_status_info(int status, status_info* inf)
 
     // Silenced by an external source.
     case STATUS_SILENCE:
-        if (silenced(you.pos()) && !you.duration[DUR_SILENCE])
+        if (you.species != SP_GROUND_DWARF && silenced(you.pos()) && !you.duration[DUR_SILENCE])
         {
             inf->light_colour = LIGHTRED;
             inf->light_text   = "Sil";

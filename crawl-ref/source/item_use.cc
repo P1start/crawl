@@ -96,7 +96,8 @@ bool can_wield(const item_def *weapon, bool say_reason,
     if (!ignore_temporary_disability
         && you.weapon()
         && is_weapon(*you.weapon())
-        && you.weapon()->cursed())
+        && you.weapon()->cursed()
+        && you.species != SP_GROUND_DWARF)
     {
         SAY(mprf("You can't unwield your weapon%s!",
                  !unwield ? " to draw a new one" : ""));
@@ -847,7 +848,7 @@ bool takeoff_armour(int item)
     }
 
     // If we get here, we're wearing the item.
-    if (invitem.cursed())
+    if (invitem.cursed() && you.species != SP_GROUND_DWARF)
     {
         mprf("%s is stuck to your body!", invitem.name(DESC_YOUR).c_str());
         return false;
@@ -1179,7 +1180,7 @@ static bool _swap_rings(int ring_slot)
                 }
             }
 
-            if (ring->cursed())
+            if (ring->cursed() && you.species != SP_GROUND_DWARF)
                 cursed++;
             else if (strstr(ring->inscription.c_str(), "=R"))
             {
@@ -1568,7 +1569,7 @@ bool remove_ring(int slot, bool announce)
         return false;
     }
 
-    if (you.inv[you.equip[hand_used]].cursed())
+    if (you.inv[you.equip[hand_used]].cursed() && you.species != SP_GROUND_DWARF)
     {
         if (announce)
         {

@@ -1302,8 +1302,7 @@ static void _ETHERIC_CAGE_world_reacts(item_def *item)
     ASSERT(delay > 0);
 
     // coinflip() chance of 1 MP per turn.
-    if (!(you.spirit_shield() && you.species == SP_DEEP_DWARF))
-        inc_mp(binomial(div_rand_round(delay, BASELINE_DELAY), 1, 2));
+    inc_mp(binomial(div_rand_round(delay, BASELINE_DELAY), 1, 2));
     // It's more interesting to get a lump of contamination then to just add a
     // small amount every turn, plus there's a small chance of rapid buildup.
     if (one_chance_in(100))
@@ -1352,10 +1351,7 @@ static void _VINES_unequip(item_def *item, bool *show_msgs)
 
 static void _KRYIAS_equip(item_def *item, bool *show_msgs, bool unmeld)
 {
-    if (you.species == SP_DEEP_DWARF)
-        _equip_mpr(show_msgs, "You feel no connection to the armour.");
-    else
-        _equip_mpr(show_msgs, "Your attunement to healing devices increases!");
+    _equip_mpr(show_msgs, "Your attunement to healing devices increases!");
 }
 
 static void _KRYIAS_unequip(item_def *item, bool *show_msgs)

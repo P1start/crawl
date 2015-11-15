@@ -547,7 +547,8 @@ void zap_wand(int slot)
     // already know the type
     const bool alreadyknown = item_type_known(wand);
     // will waste charges
-    const bool wasteful     = !item_ident(wand, ISFLAG_KNOW_PLUSES);
+    const bool wasteful     = you.species != SP_GROUND_DWARF
+                           && !item_ident(wand, ISFLAG_KNOW_PLUSES);
           bool invis_enemy  = false;
     const bool dangerous    = player_in_a_dangerous_place(&invis_enemy);
     targetter *hitfunc      = 0;

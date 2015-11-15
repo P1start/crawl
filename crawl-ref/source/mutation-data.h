@@ -1112,7 +1112,6 @@ static const mutation_def mut_data[] =
    "subdued magic",
 },
 
-#if TAG_MAJOR_VERSION == 34
 { MUT_FORLORN, 0, 1, mutflag::BAD, false,
   "forlorn",
 
@@ -1122,7 +1121,6 @@ static const mutation_def mut_data[] =
 
   "difficulty communicating with the divine",
 },
-#endif
 
 { MUT_STOCHASTIC_TORMENT_RESISTANCE, 0, 1, mutflag::GOOD, false,
   "50% torment resistance",

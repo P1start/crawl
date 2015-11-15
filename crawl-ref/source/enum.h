@@ -3681,9 +3681,7 @@ enum mutation_type
 #else
     MUT_SUSTAIN_ATTRIBUTES,
 #endif
-#if TAG_MAJOR_VERSION == 34
     MUT_FORLORN,
-#endif
     MUT_SUBDUED_MAGIC,
     MUT_NO_DRINK,
     MUT_NO_READ,
@@ -4101,7 +4099,7 @@ enum species_type
     SP_TENGU,
     SP_MERFOLK,
     SP_VAMPIRE,
-    SP_DEEP_DWARF,
+    SP_GROUND_DWARF,
     SP_FELID,
     SP_OCTOPODE,
 #if TAG_MAJOR_VERSION == 34

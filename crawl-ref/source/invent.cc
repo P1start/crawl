@@ -1547,7 +1547,8 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
     // Curses first.
     if (item_known_cursed(item)
         && (oper == OPER_WIELD && is_weapon(item) && !_is_wielded(item)
-            || oper == OPER_PUTON || oper == OPER_WEAR))
+            || oper == OPER_PUTON || oper == OPER_WEAR)
+        && you.species != SP_GROUND_DWARF)
     {
         return true;
     }
