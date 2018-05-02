@@ -3456,7 +3456,11 @@ bool is_useless_item(const item_def &item, bool temp)
 
     case OBJ_SCROLLS:
         if (you.species == SP_TROGLODYTE)
+        {
+            if (item.sub_type == SCR_REMOVE_CURSE && you_worship(GOD_ASHENZARI))
+                return false;
             return true;
+        }
 
         if (temp && silenced(you.pos()))
             return true; // can't use scrolls while silenced
