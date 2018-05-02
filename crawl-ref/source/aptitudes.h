@@ -1561,5 +1561,44 @@ static const species_skill_aptitude species_skill_aptitudes[] =
     APT(SP_GNOLL,           SK_POISON_MAGIC,    6),
     APT(SP_GNOLL,           SK_INVOCATIONS,     9),
     APT(SP_GNOLL,           SK_EVOCATIONS,      8),
+
+    // SP_TROGLODYTE
+    APT(SP_TROGLODYTE,           SK_FIGHTING,        1),
+    APT(SP_TROGLODYTE,           SK_SHORT_BLADES,   -1),
+    APT(SP_TROGLODYTE,           SK_LONG_BLADES,    -1),
+    APT(SP_TROGLODYTE,           SK_AXES,            0),
+    APT(SP_TROGLODYTE,           SK_MACES_FLAILS,    1),
+    APT(SP_TROGLODYTE,           SK_POLEARMS,       -1),
+    APT(SP_TROGLODYTE,           SK_STAVES,          1),
+    APT(SP_TROGLODYTE,           SK_SLINGS,         -1),
+    APT(SP_TROGLODYTE,           SK_BOWS,           -1),
+    APT(SP_TROGLODYTE,           SK_CROSSBOWS,      -1),
+    APT(SP_TROGLODYTE,           SK_THROWING,       -1),
+    APT(SP_TROGLODYTE,           SK_ARMOUR,          0),
+    APT(SP_TROGLODYTE,           SK_DODGING,         2),
+    APT(SP_TROGLODYTE,           SK_STEALTH,         3),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_TROGLODYTE,           SK_STABBING,      UNUSABLE_SKILL),
+#endif
+    APT(SP_TROGLODYTE,           SK_SHIELDS,        -1),
+#if TAG_MAJOR_VERSION == 34
+    APT(SP_TROGLODYTE,           SK_TRAPS,         UNUSABLE_SKILL),
+#endif
+    APT(SP_TROGLODYTE,           SK_UNARMED_COMBAT,  1),
+    APT(SP_TROGLODYTE,           SK_SPELLCASTING,   -1),
+    APT(SP_TROGLODYTE,           SK_CONJURATIONS,   -1),
+    APT(SP_TROGLODYTE,           SK_HEXES,          -1),
+    APT(SP_TROGLODYTE,           SK_CHARMS,         -1),
+    APT(SP_TROGLODYTE,           SK_SUMMONINGS,     -1),
+    APT(SP_TROGLODYTE,           SK_NECROMANCY,     -1),
+    APT(SP_TROGLODYTE,           SK_TRANSLOCATIONS, -1),
+    APT(SP_TROGLODYTE,           SK_TRANSMUTATIONS, -1),
+    APT(SP_TROGLODYTE,           SK_FIRE_MAGIC,     -1),
+    APT(SP_TROGLODYTE,           SK_ICE_MAGIC,      -1),
+    APT(SP_TROGLODYTE,           SK_AIR_MAGIC,      -3),
+    APT(SP_TROGLODYTE,           SK_EARTH_MAGIC,     2),
+    APT(SP_TROGLODYTE,           SK_POISON_MAGIC,    0),
+    APT(SP_TROGLODYTE,           SK_INVOCATIONS,     1),
+    APT(SP_TROGLODYTE,           SK_EVOCATIONS,     -2),
 };
 COMPILE_CHECK(ARRAYSZ(species_skill_aptitudes) == NUM_SPECIES * NUM_SKILLS);

@@ -254,6 +254,10 @@ static bool _can_use_item(const item_def &item, bool equipped)
     if (you.species == SP_MUMMY)
         return item.base_type != OBJ_POTIONS && item.base_type != OBJ_FOOD;
 
+    // Troglodytes can't read scrolls
+    if (you.species == SP_TROGLODYTE)
+        return item.base_type != OBJ_SCROLLS;
+
     // In all other cases you can use the item in some way.
     return true;
 }

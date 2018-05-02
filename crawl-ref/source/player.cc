@@ -615,6 +615,13 @@ void update_vision_range()
         denom *= LOS_DEFAULT_RANGE;
     }
 
+    // Troglodytes have -1 base LOS.
+    if (you.species == SP_TROGLODYTE)
+    {
+        nom *= LOS_DEFAULT_RANGE - 1;
+        denom *= LOS_DEFAULT_RANGE;
+    }
+
     // Nightstalker gives -1/-2/-3.
     if (you.get_mutation_level(MUT_NIGHTSTALKER))
     {

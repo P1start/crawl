@@ -402,9 +402,10 @@ static void _good_potion_or_scroll()
     // vector of weighted {object_class_type, subtype} pairs
     // xxx: could we use is_useless_item here? (not without dummy items...?)
     const vector<pair<pair<object_class_type, int>, int>> options = {
-        { { OBJ_SCROLLS, SCR_FEAR }, 1 },
+        { { OBJ_SCROLLS, SCR_FEAR },
+            you.species == SP_TROGLODYTE ? 0 : 1 },
         { { OBJ_SCROLLS, SCR_BLINKING },
-            you.species == SP_FORMICID ? 0 : 1 },
+            you.species == SP_FORMICID || you.species == SP_TROGLODYTE ? 0 : 1 },
         { { OBJ_POTIONS, POT_HEAL_WOUNDS },
             (you.species == SP_MUMMY
              || you.species == SP_VINE_STALKER) ? 0 : 1 },
@@ -432,7 +433,7 @@ static void _decent_potion_or_scroll()
     // xxx: could we use is_useless_item here? (not without dummy items...?)
     const vector<pair<pair<object_class_type, int>, int>> options = {
         { { OBJ_SCROLLS, SCR_TELEPORTATION },
-            you.species == SP_FORMICID ? 0 : 1 },
+            you.species == SP_FORMICID || you.species == SP_TROGLODYTE ? 0 : 1 },
         { { OBJ_POTIONS, POT_CURING },
             you.species == SP_MUMMY ? 0 : 1 },
         { { OBJ_POTIONS, POT_LIGNIFY },

@@ -20,6 +20,22 @@
 static const map<species_type, species_def> species_data =
 {
 
+{ SP_TROGLODYTE, {
+    "Tg",
+    "Troglodyte", nullptr, nullptr,
+    SPF_NONE,
+    0, 0, 0, 3,
+    MONS_HUMAN, // TODO
+    HT_LAND, US_ALIVE, SIZE_MEDIUM,
+    9, 7, 9, // 24
+    { STAT_STR, STAT_DEX }, 4,
+    { { MUT_ACUTE_VISION, 1, 1 }, },
+    { "You cannot read scrolls.", "You are obsessed with worship. (+Faith)", "You can remove cursed equipment at the cost of moderate draining.", "You cannot see very far. (-LOS)", },
+    { "no scrolls", "faith", "uncursed", "-LOS", },
+    {},
+    { SK_MACES_FLAILS, SK_AXES, SK_STAVES },
+} },
+
 { SP_BARACHI, {
     "Ba",
     "Barachi", "Barachian", "Frog",

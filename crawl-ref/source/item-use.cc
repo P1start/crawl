@@ -325,7 +325,8 @@ bool can_wield(const item_def *weapon, bool say_reason,
     if (!ignore_temporary_disability
         && you.weapon()
         && is_weapon(*you.weapon())
-        && you.weapon()->cursed())
+        && you.weapon()->cursed()
+        && you.species != SP_TROGLODYTE)
     {
         SAY(mprf("You can't unwield your weapon%s!",
                  !unwield ? " to draw a new one" : ""));
@@ -421,6 +422,8 @@ bool can_wield(const item_def *weapon, bool say_reason,
 
 #undef SAY
 }
+
+static bool _can_remove_with_draining(const item_def &item);
 
 /**
  * @param auto_wield true if this was initiated by the wield weapon command (w)
@@ -521,6 +524,9 @@ bool wield_weapon(bool auto_wield, int slot, bool show_weff_messages,
 
             // check if you'd get stat-zeroed
             if (!_safe_to_remove_or_wear(*wpn, true))
+                return false;
+
+            if (!_can_remove_with_draining(*wpn))
                 return false;
 
             if (!unwield_item(show_weff_messages))
@@ -1133,8 +1139,15 @@ static bool _can_takeoff_armour(int item)
     // If we get here, we're wearing the item.
     if (invitem.cursed())
     {
-        mprf("%s is stuck to your body!", invitem.name(DESC_YOUR).c_str());
-        return false;
+        if (you.species == SP_TROGLODYTE)
+        {
+            return true; // Cursed items are handled in _can_remove_with_draining
+        }
+        else
+        {
+            mprf("%s is stuck to your body!", invitem.name(DESC_YOUR).c_str());
+            return false;
+        }
     }
     return true;
 }
@@ -1152,6 +1165,9 @@ bool takeoff_armour(int item)
     // It's possible to take this thing off, but if it would drop a stat
     // below 0, we should get confirmation.
     if (!_safe_to_remove_or_wear(invitem, true))
+        return false;
+
+    if (!_can_remove_with_draining(invitem))
         return false;
 
     const equipment_type slot = get_armour_slot(invitem);
@@ -1487,7 +1503,7 @@ static bool _swap_rings(int ring_slot)
                 }
             }
 
-            if (ring->cursed())
+            if (ring->cursed() && you.species != SP_TROGLODYTE)
                 cursed++;
             else if (strstr(ring->inscription.c_str(), "=R"))
             {
@@ -1681,7 +1697,7 @@ static bool _can_puton_jewellery(int item_slot)
                 continue;
             }
             int existing = you.equip[eq];
-            if (existing != -1 && you.inv[existing].cursed())
+            if (existing != -1 && you.inv[existing].cursed() && you.species != SP_TROGLODYTE)
                 cursed++;
             else
                 // We found an available slot. We're done.
@@ -1868,6 +1884,30 @@ bool puton_ring(int slot, bool allow_prompt, bool check_for_inscriptions)
     return _puton_item(item_slot, prompt, check_for_inscriptions);
 }
 
+bool _can_remove_with_draining(const item_def &item)
+{
+    if (you.species != SP_TROGLODYTE)
+        return true;
+
+    if (item.cursed())
+    {
+        const char *verb = item.base_type == OBJ_WEAPONS ? "unwield" : "remove";
+        string prompt = make_stringf("Really %s %s and drain yourself?", verb,
+                                     item.name(DESC_YOUR).c_str());
+        if (!yesno(prompt.c_str(), false, 'n'))
+        {
+            canned_msg(MSG_OK);
+            return false;
+        }
+        else
+        {
+            drain_player(100, true, true);
+        }
+    }
+
+    return true;
+}
+
 // Remove the amulet/ring at given inventory slot (or, if slot is -1, prompt
 // for which piece of jewellery to remove)
 bool remove_ring(int slot, bool announce)
@@ -1968,7 +2008,7 @@ bool remove_ring(int slot, bool announce)
         return false;
     }
 
-    if (you.inv[you.equip[hand_used]].cursed())
+    if (you.inv[you.equip[hand_used]].cursed() && you.species != SP_TROGLODYTE)
     {
         if (announce)
         {
@@ -1984,9 +2024,13 @@ bool remove_ring(int slot, bool announce)
 
     ring_wear_2 = you.equip[hand_used];
 
-    // Remove the ring.
     if (!_safe_to_remove_or_wear(you.inv[ring_wear_2], true))
         return false;
+
+    if (!_can_remove_with_draining(you.inv[ring_wear_2]))
+    {
+        return false;
+    }
 
 #ifdef USE_SOUND
     parse_sound(REMOVE_JEWELLERY_SOUND);
@@ -1995,6 +2039,7 @@ bool remove_ring(int slot, bool announce)
 #ifdef USE_TILE_LOCAL
     const unsigned int old_talents = your_talents(false).size();
 #endif
+    // Remove the ring.
     unequip_item(hand_used);
 #ifdef USE_TILE_LOCAL
     if (your_talents(false).size() != old_talents)
@@ -2622,6 +2667,12 @@ static bool _is_cancellable_scroll(scroll_type scroll)
  */
 bool player_can_read()
 {
+    if (you.species == SP_TROGLODYTE)
+    {
+        mpr("You cannot read scrolls!");
+        return false;
+    }
+
     if (you.berserk())
     {
         canned_msg(MSG_TOO_BERSERK);

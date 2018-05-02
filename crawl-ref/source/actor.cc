@@ -251,7 +251,7 @@ bool actor::clarity(bool calc_unid, bool items) const
 
 bool actor::faith(bool calc_unid, bool items) const
 {
-    return items && wearing(EQ_AMULET, AMU_FAITH, calc_unid);
+    return you.species == SP_TROGLODYTE || items && wearing(EQ_AMULET, AMU_FAITH, calc_unid);
 }
 
 int actor::archmagi(bool calc_unid, bool items) const
