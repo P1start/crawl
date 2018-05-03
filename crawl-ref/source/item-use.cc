@@ -1136,7 +1136,7 @@ static bool _can_takeoff_armour(int item)
     {
         if (you.species == SP_TROGLODYTE)
         {
-            return true; // Cursed items are handled in can_remove_with_draining
+            return true;
         }
         else
         {
@@ -1160,9 +1160,6 @@ bool takeoff_armour(int item)
     // It's possible to take this thing off, but if it would drop a stat
     // below 0, we should get confirmation.
     if (!_safe_to_remove_or_wear(invitem, true))
-        return false;
-
-    if (!can_remove_with_draining(invitem))
         return false;
 
     const equipment_type slot = get_armour_slot(invitem);
@@ -1492,7 +1489,8 @@ static bool _swap_rings(int ring_slot)
             {
                 if (ring->sub_type != first_ring->sub_type
                     || ring->plus  != first_ring->plus
-                    || is_artefact(*ring) || is_artefact(*first_ring))
+                    || is_artefact(*ring) || is_artefact(*first_ring)
+                    || (you.species == SP_TROGLODYTE && ring->cursed() != first_ring->cursed()))
                 {
                     all_same = false;
                 }
@@ -1669,7 +1667,7 @@ static bool _can_puton_jewellery(int item_slot)
     if (is_amulet)
     {
         int existing = you.equip[EQ_AMULET];
-        if (existing != -1 && you.inv[existing].cursed())
+        if (existing != -1 && you.inv[existing].cursed() && you.species != SP_TROGLODYTE)
         {
             mprf("%s is stuck to you!",
                  you.inv[existing].name(DESC_YOUR).c_str());
@@ -1879,30 +1877,6 @@ bool puton_ring(int slot, bool allow_prompt, bool check_for_inscriptions)
     return _puton_item(item_slot, prompt, check_for_inscriptions);
 }
 
-bool can_remove_with_draining(const item_def &item)
-{
-    if (you.species != SP_TROGLODYTE)
-        return true;
-
-    if (item.cursed())
-    {
-        const char *verb = item.base_type == OBJ_WEAPONS ? "unwield" : "remove";
-        string prompt = make_stringf("Really %s %s and drain yourself?", verb,
-                                     item.name(DESC_YOUR).c_str());
-        if (!yesno(prompt.c_str(), false, 'n'))
-        {
-            canned_msg(MSG_OK);
-            return false;
-        }
-        else
-        {
-            drain_player(100, true, true);
-        }
-    }
-
-    return true;
-}
-
 // Remove the amulet/ring at given inventory slot (or, if slot is -1, prompt
 // for which piece of jewellery to remove)
 bool remove_ring(int slot, bool announce)
@@ -2021,11 +1995,6 @@ bool remove_ring(int slot, bool announce)
 
     if (!_safe_to_remove_or_wear(you.inv[ring_wear_2], true))
         return false;
-
-    if (!can_remove_with_draining(you.inv[ring_wear_2]))
-    {
-        return false;
-    }
 
 #ifdef USE_SOUND
     parse_sound(REMOVE_JEWELLERY_SOUND);

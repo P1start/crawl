@@ -179,6 +179,9 @@ void unequip_effect(equipment_type slot, int item_slot, bool meld, bool msg)
 
     _assert_valid_slot(eq, slot);
 
+    if (you.species == SP_TROGLODYTE && item.cursed())
+        drain_player(100, true, true);
+
     if (slot == EQ_WEAPON)
         _unequip_weapon_effect(item, msg, meld);
     else if (slot >= EQ_CLOAK && slot <= EQ_BODY_ARMOUR)
@@ -756,8 +759,6 @@ static void _unequip_weapon_effect(item_def& real_item, bool showMsgs,
                 end_weapon_brand(real_item, true);
             }
         }
-
-        can_remove_with_draining(item);
     }
     else if (item.is_type(OBJ_STAVES, STAFF_POWER))
     {

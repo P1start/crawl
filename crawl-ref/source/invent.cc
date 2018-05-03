@@ -1563,6 +1563,11 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
         return true;
     }
 
+    // Troglodytes can remove cursed equipment, causing draining
+    if (you.species == SP_TROGLODYTE
+        && item.cursed() && (oper == OPER_TAKEOFF || oper == OPER_REMOVE))
+        return true;
+
     // The consequences of evokables are generally known unless it's a deck
     // and you don't know what kind of a deck it is.
     if (item.base_type == OBJ_MISCELLANY && !is_deck(item)
@@ -1607,6 +1612,9 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
         {
             return true;
         }
+
+        if (you.species == SP_TROGLODYTE && item.cursed())
+            return true;
 
         if (get_weapon_brand(item) == SPWPN_VAMPIRISM
             && you.undead_state() == US_ALIVE
@@ -1745,7 +1753,7 @@ bool check_warning_inscriptions(const item_def& item,
         else if (oper == OPER_REMOVE || oper == OPER_TAKEOFF)
         {
             // Don't ask if it will fail anyway.
-            if (item.cursed())
+            if (item.cursed() && you.species != SP_TROGLODYTE)
                 return true;
         }
 
