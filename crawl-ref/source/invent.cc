@@ -1613,7 +1613,7 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
             return true;
         }
 
-        if (you.species == SP_TROGLODYTE && item.cursed())
+        if (you.species == SP_TROGLODYTE && item_known_cursed(item))
             return true;
 
         if (get_weapon_brand(item) == SPWPN_VAMPIRISM
