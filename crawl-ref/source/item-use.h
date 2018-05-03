@@ -56,3 +56,5 @@ bool enchant_armour(int &ac_change, bool quiet, item_def &arm);
 void random_uselessness();
 
 void prompt_inscribe_item();
+
+bool can_remove_with_draining(const item_def &item);

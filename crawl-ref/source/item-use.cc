@@ -423,8 +423,6 @@ bool can_wield(const item_def *weapon, bool say_reason,
 #undef SAY
 }
 
-static bool _can_remove_with_draining(const item_def &item);
-
 /**
  * @param auto_wield true if this was initiated by the wield weapon command (w)
  *      false otherwise (e.g. switching between ranged and melee with the
@@ -524,9 +522,6 @@ bool wield_weapon(bool auto_wield, int slot, bool show_weff_messages,
 
             // check if you'd get stat-zeroed
             if (!_safe_to_remove_or_wear(*wpn, true))
-                return false;
-
-            if (!_can_remove_with_draining(*wpn))
                 return false;
 
             if (!unwield_item(show_weff_messages))
@@ -1141,7 +1136,7 @@ static bool _can_takeoff_armour(int item)
     {
         if (you.species == SP_TROGLODYTE)
         {
-            return true; // Cursed items are handled in _can_remove_with_draining
+            return true; // Cursed items are handled in can_remove_with_draining
         }
         else
         {
@@ -1167,7 +1162,7 @@ bool takeoff_armour(int item)
     if (!_safe_to_remove_or_wear(invitem, true))
         return false;
 
-    if (!_can_remove_with_draining(invitem))
+    if (!can_remove_with_draining(invitem))
         return false;
 
     const equipment_type slot = get_armour_slot(invitem);
@@ -1884,7 +1879,7 @@ bool puton_ring(int slot, bool allow_prompt, bool check_for_inscriptions)
     return _puton_item(item_slot, prompt, check_for_inscriptions);
 }
 
-bool _can_remove_with_draining(const item_def &item)
+bool can_remove_with_draining(const item_def &item)
 {
     if (you.species != SP_TROGLODYTE)
         return true;
@@ -2027,7 +2022,7 @@ bool remove_ring(int slot, bool announce)
     if (!_safe_to_remove_or_wear(you.inv[ring_wear_2], true))
         return false;
 
-    if (!_can_remove_with_draining(you.inv[ring_wear_2]))
+    if (!can_remove_with_draining(you.inv[ring_wear_2]))
     {
         return false;
     }

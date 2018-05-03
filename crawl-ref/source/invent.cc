@@ -1447,6 +1447,7 @@ bool check_old_item_warning(const item_def& item,
             return true;
 
         old_item = *you.weapon();
+
         if (!needs_handle_warning(old_item, OPER_WIELD, penance))
             return true;
 

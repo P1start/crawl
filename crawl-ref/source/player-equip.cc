@@ -756,6 +756,8 @@ static void _unequip_weapon_effect(item_def& real_item, bool showMsgs,
                 end_weapon_brand(real_item, true);
             }
         }
+
+        can_remove_with_draining(item);
     }
     else if (item.is_type(OBJ_STAVES, STAFF_POWER))
     {
