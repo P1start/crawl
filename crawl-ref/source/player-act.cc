@@ -344,7 +344,7 @@ bool player::can_wield(const item_def& item, bool ignore_curse,
 {
     if (equip[EQ_WEAPON] != -1 && !ignore_curse)
     {
-        if (inv[equip[EQ_WEAPON]].cursed())
+        if (inv[equip[EQ_WEAPON]].cursed() && you.species != SP_TROGLODYTE)
             return false;
     }
 
