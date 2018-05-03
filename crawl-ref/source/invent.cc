@@ -1583,6 +1583,7 @@ bool needs_handle_warning(const item_def &item, operation_types oper,
 
     if (oper == OPER_REMOVE
         && item.is_type(OBJ_JEWELLERY, AMU_FAITH)
+        && you.species != SP_TROGLODYTE
         && !(you_worship(GOD_RU) && you.piety >= piety_breakpoint(5))
         && !you_worship(GOD_GOZAG)
         && !you_worship(GOD_NO_GOD)

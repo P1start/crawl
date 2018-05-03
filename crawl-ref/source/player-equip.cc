@@ -1102,6 +1102,10 @@ static void _unequip_armour_effect(item_def& item, bool meld,
 
 static void _remove_amulet_of_faith(item_def &item)
 {
+    // Amulets of faith don't do anything for Troglodytes, so don't penalise them
+    if (you.species == SP_TROGLODYTE)
+        return;
+
     if (you_worship(GOD_RU))
     {
         // next sacrifice is going to be delaaaayed.
@@ -1262,6 +1266,8 @@ static void _equip_jewellery_effect(item_def &item, bool unmeld,
     case AMU_FAITH:
         if (you.species == SP_DEMIGOD)
             mpr("You feel a surge of self-confidence.");
+        else if (you.species == SP_TROGLODYTE)
+            mpr("The amulet feels powerless on such a pious creature as yourself.");
         else if (you_worship(GOD_RU) && you.piety >= piety_breakpoint(5))
         {
             simple_god_message(" says: An ascetic of your devotion"
